@@ -3,603 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mana Boom Beta - Download Now | Chaotic 2D Physics Party Game</title>
-    <meta name="description" content="Download Mana Boom Beta now! A chaotic 2D physics party game for up to 8 players online.">
-    <meta name="keywords" content="Mana Boom, Mana Boom Beta, party game, multiplayer, physics game, beta download">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #0a0a0a;
-            color: white;
-            overflow-x: hidden;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* CSS Variables */
-        :root {
-            --mana-purple: #8B5CF6;
-            --mana-pink: #EC4899;
-            --mana-cyan: #06B6D4;
-            --mana-black: #0a0a0a;
-            --mana-gray: #1a1a1a;
-            --mana-darker: #000000;
-        }
-
-        /* Glassmorphism */
-        .glassmorphism {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* Gradient Text */
-        .gradient-text {
-            background: linear-gradient(90deg, var(--mana-purple), var(--mana-pink), var(--mana-cyan));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* Navbar */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 50;
-            transition: all 0.3s;
-            padding: 1.5rem;
-            background: transparent;
-        }
-
-        .navbar.scrolled {
-            background: rgba(10, 10, 10, 0.7);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(139, 92, 246, 0.1);
-            padding: 1rem;
-        }
-
-        .navbar-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .navbar-logo {
-            height: 3.5rem;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        .navbar-logo:hover {
-            transform: scale(1.05);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .nav-link {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            position: relative;
-            transition: color 0.3s;
-        }
-
-        .nav-link:hover {
-            color: white;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--mana-purple), var(--mana-pink));
-            transition: width 0.3s;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--mana-black);
-            position: relative;
-            overflow: hidden;
-            padding-top: 6rem;
-        }
-
-        .hero-background {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, var(--mana-black), var(--mana-gray), var(--mana-black));
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            padding: 1rem;
-        }
-
-        .hero-logo {
-            width: 20rem;
-            max-width: 24rem;
-            height: auto;
-            margin-bottom: 3rem;
-            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
-            animation: logoFloat 4s ease-in-out infinite;
-            cursor: pointer;
-        }
-
-        @keyframes logoFloat {
-            0%, 100% { transform: scale(1) translateX(0); }
-            25% { transform: scale(1.08) translateX(10px); }
-            50% { transform: scale(1) translateX(0); }
-            75% { transform: scale(1.08) translateX(-10px); }
-        }
-
-        .hero-title {
-            font-size: clamp(3rem, 8vw, 9rem);
-            font-weight: 800;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 20px rgba(139, 92, 246, 0.8);
-        }
-
-        .hero-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            justify-content: center;
-            align-items: center;
-            margin-top: 2rem;
-        }
-
-        @media (min-width: 640px) {
-            .hero-buttons {
-                flex-direction: row;
-            }
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: 9999px;
-            font-weight: 700;
-            font-size: 1.125rem;
-            text-decoration: none;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s;
-            cursor: pointer;
-            border: none;
-        }
-
-        .btn:hover {
-            transform: scale(1.05);
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, var(--mana-purple), var(--mana-pink));
-            color: white;
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-        }
-
-        /* About Section */
-        .section {
-            padding: 8rem 1rem;
-            position: relative;
-        }
-
-        .section-divider {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(236, 72, 153, 0.5), transparent);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            font-size: clamp(3rem, 6vw, 7rem);
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .section-description {
-            font-size: clamp(1.25rem, 2vw, 2rem);
-            color: rgba(255, 255, 255, 0.7);
-            text-align: center;
-            max-width: 48rem;
-            margin: 0 auto 5rem;
-        }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .feature-card {
-            padding: 1.5rem;
-            border-radius: 1.5rem;
-            transition: transform 0.3s, background 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(90deg, var(--mana-purple), var(--mana-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .feature-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-            color: white;
-        }
-
-        .feature-description {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.875rem;
-            line-height: 1.5;
-        }
-
-        /* Animation Section */
-        .animation-card {
-            padding: 2rem 3rem;
-            border-radius: 1.5rem;
-            max-width: 48rem;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .animation-demo {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .animation-circle {
-            width: 4rem;
-            height: 4rem;
-            border-radius: 50%;
-            background: linear-gradient(90deg, #a5b4fc, #f0abfc);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-
-        .animation-line {
-            width: 6rem;
-            height: 0.25rem;
-            background: linear-gradient(90deg, #a5b4fc, #f0abfc);
-            border-radius: 9999px;
-        }
-
-        .animation-dot {
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50%;
-            background: #5eead4;
-        }
-
-        /* CTA Section */
-        .cta-card {
-            padding: 2rem 4rem;
-            border-radius: 1.5rem;
-            max-width: 48rem;
-            margin: 0 auto;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-background {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(236, 72, 153, 0.2), rgba(6, 182, 212, 0.3));
-            border-radius: 1.5rem;
-            filter: blur(3rem);
-        }
-
-        .cta-badge {
-            display: inline-block;
-            padding: 0.75rem 1.5rem;
-            border-radius: 9999px;
-            margin-top: 3rem;
-        }
-
-        /* Footer */
-        .footer {
-            padding: 4rem 1rem;
-            border-top: 1px solid rgba(139, 92, 246, 0.2);
-            background: var(--mana-black);
-            text-align: center;
-        }
-
-        .footer-logo {
-            height: 6rem;
-            margin: 0 auto 1.5rem;
-        }
-
-        .footer-text {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 1.25rem;
-            margin-bottom: 3rem;
-        }
-
-        .footer-copyright {
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.875rem;
-        }
-
-        /* Mobile Menu */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            padding: 0.5rem;
-            cursor: pointer;
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-        }
-
-        /* Hide scroll bar but keep functionality */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-    </style>
+    <title>Mana Boom | Official Game Site</title>
+    <meta name="description" content="Mana Boom is a physics-driven party game for up to 8 players. Play as mischievous witches, cast spells, and swing your magic rope.">
+    <link rel="icon" href="images/logo.png" type="image/png">
+    <link rel="stylesheet" href="src/styles/manaboom.css">
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar" id="navbar">
-        <div class="navbar-container">
-            <img src="https://via.placeholder.com/150" alt="Mana Boom" class="navbar-logo" onclick="scrollToTop()">
-            <div class="nav-links">
-                <a href="#" class="nav-link" onclick="scrollToTop()">HOME</a>
-                <a href="#about" class="nav-link">ABOUT</a>
-                <a href="#features" class="nav-link">FEATURES</a>
-                <a href="https://store.steampowered.com/app/5022650/Mana_Boom/" target="_blank" class="nav-link">STEAM</a>
-            </div>
-            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
-                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-            </button>
+
+    <!-- NAVIGATION BAR -->
+    <header class="navbar">
+        <div class="nav-left">
+            <a href="#" class="brand">
+                <img src="images/logo.png" alt="Mana Boom">
+            </a>
+            <nav class="nav-links">
+                <a href="#game">Game</a>
+                <a href="#news">News</a>
+                <a href="#community">Community</a>
+                <a href="#support">Support</a>
+            </nav>
         </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero" id="hero">
-        <div class="hero-background"></div>
-        <div class="hero-content">
-            <img src="https://via.placeholder.com/300" alt="Mana Boom Logo" class="hero-logo" onclick="scrollToTop()">
-            <h1 class="hero-title gradient-text">MANA BOOM</h1>
-            <div class="hero-buttons">
-                <a href="https://store.steampowered.com/app/5022650/Mana_Boom/" target="_blank" class="btn btn-primary">
-                    DOWNLOAD BETA
-                </a>
-                <button class="btn btn-secondary" onclick="alert('Video coming soon!')">
-                    WATCH TRAILER
-                </button>
+        <div class="nav-right">
+            <div class="social-icons">
+                <a href="https://x.com/manaboomdev" target="_blank" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></a>
+                <a href="#" aria-label="Discord"><svg viewBox="0 0 24 24"><path d="M20.3 5.3A16.2 16.2 0 0 0 16 3.5a.1.1 0 0 0-.08.05 11.4 11.4 0 0 0-.5 1 15.3 15.3 0 0 0-5.8 0 11.4 11.4 0 0 0-.5-1 .1.1 0 0 0-.08-.05 16.2 16.2 0 0 0-4.3 1.8.1.1 0 0 0-.04.04C1.5 12 2.6 18.5 4 20.5a.1.1 0 0 0 .07.03 16.4 16.4 0 0 0 5-1.5.1.1 0 0 0 .05-.1 11.8 11.8 0 0 1-.5-1.6.1.1 0 0 1 .05-.12 11.1 11.1 0 0 0 6.6 0 .1.1 0 0 1 .05.12 11.8 11.8 0 0 1-.5 1.6.1.1 0 0 0 .05.1 16.4 16.4 0 0 0 5 1.5.1.1 0 0 0 .07-.03c1.5-2 2.5-8.5.5-15.2a.1.1 0 0 0-.04-.04zM8 15.6c-1.1 0-2-.9-2-2.1s.9-2.1 2-2.1 2 .9 2 2.1-.9 2.1-2 2.1zm8 0c-1.1 0-2-.9-2-2.1s.9-2.1 2-2.1 2 .9 2 2.1-.9 2.1-2 2.1z"/></svg></a>
+                <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33zM9.75 15.02V8.48l6.5 3.27-6.5 3.27z"/></svg></a>
             </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="section" id="about">
-        <div class="section-divider"></div>
-        <div class="container">
-            <h2 class="section-title gradient-text">ABOUT THE GAME</h2>
-            <p class="section-description">
-                Welcome to a witch academy where rivalry spirals out of control. Mana Boom is a chaotic 2D physics party game for up to 8 players online.
-            </p>
-            
-            <div class="feature-grid">
-                <div class="feature-card glassmorphism">
-                    <div class="feature-icon">🎮</div>
-                    <h3 class="feature-title">8-Player Online</h3>
-                    <p class="feature-description">Dive into chaotic multiplayer mayhem with up to 8 players online.</p>
-                </div>
-                <div class="feature-card glassmorphism">
-                    <div class="feature-icon">⚡</div>
-                    <h3 class="feature-title">Physics-Based</h3>
-                    <p class="feature-description">Master the physics-driven rope mechanics and swing across impossible gaps.</p>
-                </div>
-                <div class="feature-card glassmorphism">
-                    <div class="feature-icon">💥</div>
-                    <h3 class="feature-title">Destructible</h3>
-                    <p class="feature-description">Shatter the ground beneath your enemies with explosive spells.</p>
-                </div>
-                <div class="feature-card glassmorphism">
-                    <div class="feature-icon">🎯</div>
-                    <h3 class="feature-title">AI Opponents</h3>
-                    <p class="feature-description">Challenge AI-controlled opponents or practice solo.</p>
-                </div>
-            </div>
-
-            <div class="animation-card glassmorphism" style="margin-top: 5rem;">
-                <h3 class="section-title" style="font-size: 2rem;">SWING, SMASH, AND EXPLODE</h3>
-                <p class="section-description" style="margin: 0 auto 2rem;">
-                    Your magic rope changes everything. Build wild momentum, swing across impossible gaps, and fling yourself through arenas.
-                </p>
-                <div class="animation-demo">
-                    <div class="animation-circle"></div>
-                    <div class="animation-line"></div>
-                    <div class="animation-dot"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="section" id="features">
-        <div class="section-divider"></div>
-        <div class="container">
-            <h2 class="section-title gradient-text">GAME FEATURES</h2>
-            <p class="section-description">
-                Experience unique gameplay mechanics and endless chaos in our magical arenas.
-            </p>
-            
-            <div class="feature-grid">
-                <div class="feature-card glassmorphism">
-                    <div class="feature-icon">🏆</div>
-                    <h3 class="feature-title">Tournaments</h3>
-                    <p class="feature-description">Compete in multi-round tournaments to claim the crown.</p>
-                </div>
-                <div class="feature-card glassmorphism">
-                    <div class="feature-icon">🎨</div>
-                    <h3 class="feature-title">Customization</h3>
-                    <p class="feature-description">Customize your witch with unique looks and playstyles.</p>
-                </div>
-                <div class="feature-card glassmorphism">
-                    <div class="feature-icon">🗺️</div>
-                    <h3 class="feature-title">Map Editor</h3>
-                    <p class="feature-description">Create your own arenas with the built-in map editor.</p>
-                </div>
-                <div class="feature-card glassmorphism">
-                    <div class="feature-icon">🔮</div>
-                    <h3 class="feature-title">Magic Weapons</h3>
-                    <p class="feature-description">Unleash a growing collection of magical weapons and tools.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="section">
-        <div class="section-divider"></div>
-        <div class="container">
-            <div class="cta-card glassmorphism">
-                <div class="cta-background"></div>
-                <div style="position: relative; z-index: 1;">
-                    <h2 class="section-title" style="font-size: clamp(2rem, 4vw, 3rem);">READY TO PLAY BETA?</h2>
-                    <p class="section-description" style="margin: 0 auto 2rem;">
-                        Download the beta version and start swinging today!
-                    </p>
-                    <div class="hero-buttons">
-                        <a href="https://store.steampowered.com/app/5022650/Mana_Boom/" target="_blank" class="btn btn-primary">
-                            DOWNLOAD BETA
-                        </a>
-                        <a href="https://store.steampowered.com/app/5022650/Mana_Boom/" target="_blank" class="btn btn-secondary">
-                            SYSTEM REQUIREMENTS
-                        </a>
-                    </div>
-                    <div class="cta-badge glassmorphism">
-                        <span style="color: rgba(255, 255, 255, 0.6); font-size: 0.875rem;">Beta Available Now</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <img src="https://via.placeholder.com/150" alt="Mana Boom" class="footer-logo">
-        <p class="footer-text">Swing. Smash. Explode.</p>
-        <div class="hero-buttons" style="margin: 0 auto 3rem;">
-            <a href="https://store.steampowered.com/app/5022650/Mana_Boom/" target="_blank" class="btn btn-primary">
-                DOWNLOAD BETA
+            <a href="https://store.steampowered.com/app/5022650/Mana_Boom/" target="_blank" class="btn-nav-play">
+                <span>STEAM</span>
             </a>
         </div>
-        <div class="footer-copyright">
-            <p style="margin-bottom: 0.5rem;">© 2026 PepaStar. All rights reserved.</p>
-            <p style="font-size: 0.75rem;">Mana Boom and all related assets are property of PepaStar.</p>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="game">
+        <video autoplay loop muted playsinline class="hero-bg" poster="images/screenshot1.jpg">
+            <source src="images/trailer.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+        <img src="images/logo.png" alt="Mana Boom" class="hero-logo">
+    </section>
+
+    <!-- INFO BAR -->
+    <div class="info-bar-wrapper">
+        <div class="torn-edge-top"></div>
+        
+        <div class="info-bar">
+            <div class="info-features">
+                <div class="info-item">
+                    <svg viewBox="0 0 24 24"><path d="M14.2 3.6l6.2 6.2-12.8 12.8c-1.1 1.1-2.9 1.1-4 0-1.1-1.1-1.1-2.9 0-4l10.6-15z"/></svg>
+                    <span>Magic Rope</span>
+                </div>
+                <div class="info-item">
+                    <svg viewBox="0 0 24 24"><path d="M12 12c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4zm0 2c-2.7 0-8 1.3-8 4v2h16v-2c0-2.7-5.3-4-8-4z"/></svg>
+                    <span>Up to 8 Players</span>
+                </div>
+                <div class="info-item">
+                    <svg viewBox="0 0 24 24"><path d="M16 11c1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3 1.3 3 3 3zm-8 0c1.7 0 3-1.3 3-3S9.7 5 8 5 5 6.3 5 8s1.3 3 3 3zm0 2c-2.3 0-7 1.2-7 3.5V19h14v-2.5c0-2.3-4.7-3.5-7-3.5zm8 0c-.3 0-.6 0-.9.1 1.2.7 2.1 1.8 2.1 3.4V19h7v-2.5c0-2.3-4.7-3.5-7-3.5z"/></svg>
+                    <span>Party Chaos</span>
+                </div>
+                <div class="info-item">
+                    <svg viewBox="0 0 24 24"><path d="M21 2H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h7v2H8v2h8v-2h-2v-2h7c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM4 14V4h16v10H4z"/></svg>
+                    <span>6+ Game Modes</span>
+                </div>
+            </div>
+            
+            <div class="info-action">
+                <a href="#download" class="btn-huge">
+                    <span>DOWNLOAD</span>
+                </a>
+            </div>
         </div>
+        
+        <div class="torn-edge-bottom"></div>
+    </div>
+
+    <!-- FEATURES SECTION -->
+    <section class="features-section">
+        <div class="features-container">
+            <h2 class="section-title">Game Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                    </div>
+                    <h4>Magic Rope Physics</h4>
+                    <p>Swing, grapple and launch yourself. The advanced physics engine makes every move unpredictable and satisfying.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    </div>
+                    <h4>Mischievous Witches</h4>
+                    <p>Master wickedly fun characters with unique personalities and distinct playstyles on the battlefield.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                    </div>
+                    <h4>Brawl & Race</h4>
+                    <p>From last-witch-standing arenas to chaotic aerial races, master over 6 different game modes.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+                    </div>
+                    <h4>Spell Casting</h4>
+                    <p>Charge up powerful spells and unleash them at just the right moment. Timing is everything.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MEDIA SECTION -->
+    <section class="media-section">
+        <div class="media-container">
+            <h2 class="section-title">Media</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="images/screenshot1.jpg" alt="Screenshot 1">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/screenshot2.jpg" alt="Screenshot 2">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/screenshot3.jpg" alt="Screenshot 3">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/screenshot4.jpg" alt="Screenshot 4">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/screenshot5.jpg" alt="Screenshot 5">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/screenshot6.jpg" alt="Screenshot 6">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DOWNLOAD SECTION -->
+    <section class="download-section" id="download">
+        <div class="download-container">
+            
+            <div class="download-header">
+                <img src="images/logo.png" alt="Mana Boom" class="download-logo">
+                <div class="download-text">
+                    <h2>The Physics-Driven<br>Party Game</h2>
+                    <p>Swing your magic rope, charge your spells, and dive into 8-player online chaos!</p>
+                </div>
+            </div>
+
+            <div class="platforms-grid">
+                
+                <!-- DESKTOP BOX -->
+                <div class="platform-box">
+                    <h3>DESKTOP</h3>
+                    <ul class="platform-list">
+                        <li>
+                            <a href="#" class="platform-link">
+                                <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                                Direct Download (v1.0.4)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://store.steampowered.com/app/5022650/Mana_Boom/" target="_blank" class="platform-link">
+                                <svg viewBox="0 0 24 24"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.029 4.524 4.524s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0zM7.54 18.21l-1.473-.61c.262.543.714.999 1.314 1.25 1.297.539 2.793-.076 3.332-1.375.263-.63.264-1.319.005-1.949s-.75-1.121-1.377-1.383c-.624-.26-1.29-.249-1.878-.03l1.523.63c.956.4 1.409 1.5 1.009 2.455-.397.957-1.497 1.41-2.455 1.012H7.54zm11.415-9.303c0-1.662-1.353-3.015-3.015-3.015-1.665 0-3.015 1.353-3.015 3.015 0 1.665 1.35 3.015 3.015 3.015 1.662 0 3.015-1.35 3.015-3.015zm-5.273.015c0-1.252 1.013-2.266 2.265-2.266 1.249 0 2.266 1.014 2.266 2.266 0 1.251-1.017 2.265-2.266 2.265-1.252 0-2.265-1.014-2.265-2.265z"/></svg>
+                                Wishlist on Steam
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- CONSOLE BOX (Placeholder for future) -->
+                <div class="platform-box">
+                    <h3>CONSOLE</h3>
+                    <ul class="platform-list">
+                        <li>
+                            <span class="platform-link" style="color:var(--text-muted);">
+                                Coming Soon
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-nav">
+            <a href="#game">Game</a>
+            <a href="#news">News</a>
+            <a href="#community">Community</a>
+            <a href="#support">Support</a>
+        </div>
+        <p class="copyright">&copy; 2026 Mana Boom Team. All Rights Reserved.</p>
     </footer>
 
+    <!-- Smooth Scrolling -->
     <script>
-        // Scroll to top function
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }
-
-        // Navbar scroll effect
-        window.addEventListener('scroll', function() {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        // Mobile menu toggle
-        function toggleMobileMenu() {
-            alert('Mobile menu coming soon!');
-        }
-
-        // Keyboard shortcut (Home key)
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Home') {
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                scrollToTop();
-            }
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
         });
     </script>
 </body>
