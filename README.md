@@ -1,46 +1,37 @@
 # Mana Boom Website
 
-## 🚀 EN KOLAY KULLANIM
+A standalone HTML website for Mana Boom - a chaotic 2D physics party game.
 
-### 1. Baslat.bat Dosyasına Tıklayın (ÖNERİLEN)
-```
-baslat.bat dosyasina cift tiklayin
-```
-- Otomatik olarak server başlar
-- Tarayıcınızda http://localhost:8080 açılır
-- Komut penceresini açık tutun
+## Features
 
-### 2. Index.html'e Tıklayın
-```
-index.html dosyasina cift tiklayin
-```
-- NOT: Bu calismayabilir - beyaz ekran verebilir
-- Neden: React uygulamaları HTTP server gerektirir
-- Çözüm: Yukarıdaki baslat.bat dosyasini kullanin
+- Fully responsive design
+- Smooth scrolling navigation
+- Animated hero section
+- Feature cards with glassmorphism effect
+- Beta download focused CTA sections
+- SEO optimized with meta tags
+- No build process required - just open index.html!
 
-## 📋 ALTERNATIF YÖNTEMLER
+## Usage
 
-### Geliştirme Modu
-```bash
-cd C:\Users\hades\Desktop\manaboomcome
-npm run dev
-```
+Simply open `index.html` in your browser. No server or build process needed.
 
-### Production Build
-```bash
-cd C:\Users\hades\Desktop\manaboomcome
-npm run build
-npm run preview
-```
+## Customization
 
-## ⚠️ ÖNEMLİ NOTLAR
-- React uygulamaları mutlaka HTTP server ile çalışmalıdır
-- index.html'e doğrudan tıklarsanız beyaz ekran görürsünüz
-- baslat.bat dosyası sorunu çözer
-- Server çalışırken komut penceresini açık tutun
+Replace the placeholder images (`https://via.placeholder.com/150`) with your actual game images.
 
-## 🎯 HIZLI BAŞLATMA
-1. baslat.bat dosyasına çift tıklayın
-2. 5-10 saniye bekleyin
-3. Tarayıcıda site açılacak
-4. İşte!
+## Deployment
+
+This can be deployed to GitHub Pages, Netlify, or any static hosting service by uploading the `index.html` file.
+
+## Technologies
+
+- Pure HTML5
+- CSS3 with modern features
+- Vanilla JavaScript
+- Google Fonts (Poppins)
+
+## Credits
+
+- Game: Mana Boom by PepaStar
+- Website: 2026
