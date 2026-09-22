@@ -433,151 +433,170 @@
 
     <!-- Script to handle modal and fake joining & hosting -->
     <script>
-        const modal = document.getElementById('server-modal');
-        const viewRooms = document.getElementById('modal-view-rooms');
-        const viewCreate = document.getElementById('modal-view-create');
-        const viewConnecting = document.getElementById('modal-view-connecting');
-        const viewError = document.getElementById('modal-view-error');
-        const connText = document.getElementById('connecting-text');
-        const connSubtext = document.getElementById('connecting-subtext');
-        const connPing = document.getElementById('connecting-ping');
-        const errorTitle = document.getElementById('error-title');
-        const errorDesc = document.getElementById('error-desc');
-        const errorCode = document.getElementById('error-code');
-
-        let joinTimer = null;
-        let stepTimer = null;
-        let liveRoomsInterval = null;
-
-        function openServerBrowser() {
+        // Define global functions immediately at top of script
+        window.openServerBrowser = function() {
             const modalEl = document.getElementById('server-modal');
             if (modalEl) {
                 modalEl.style.display = 'flex';
                 modalEl.classList.add('active');
-                resetModal();
-                startLiveRoomUpdates();
+                window.resetModal();
+                window.startLiveRoomUpdates();
             }
-        }
+        };
 
-        const btnServer = document.getElementById('btn-server-browser');
-        if (btnServer) {
-            btnServer.addEventListener('click', openServerBrowser);
-        }
-
-        document.getElementById('modal-close-btn').addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal();
-        });
-
-        function closeModal() {
+        window.closeModal = function() {
             const modalEl = document.getElementById('server-modal');
             if (modalEl) {
                 modalEl.style.display = 'none';
                 modalEl.classList.remove('active');
             }
-            if (joinTimer) clearTimeout(joinTimer);
-            if (stepTimer) clearInterval(stepTimer);
-            if (liveRoomsInterval) clearInterval(liveRoomsInterval);
-        }
+            if (window._joinTimer) clearTimeout(window._joinTimer);
+            if (window._stepTimer) clearInterval(window._stepTimer);
+            if (window._liveRoomsInterval) clearInterval(window._liveRoomsInterval);
+        };
 
-        function resetModal() {
-            if (joinTimer) clearTimeout(joinTimer);
-            if (stepTimer) clearInterval(stepTimer);
-            viewRooms.style.display = 'block';
-            viewCreate.style.display = 'none';
-            viewConnecting.style.display = 'none';
-            viewError.style.display = 'none';
-            startLiveRoomUpdates();
-        }
-
-        function openCreateRoom() {
-            viewRooms.style.display = 'none';
-            viewCreate.style.display = 'block';
-            viewConnecting.style.display = 'none';
-            viewError.style.display = 'none';
-        }
-
-        function submitCreateRoom() {
-            const roomName = document.getElementById('room-name').value || "Custom Lobby";
-            viewCreate.style.display = 'none';
-            viewConnecting.style.display = 'block';
-
-            connText.innerText = `Initializing "${roomName}" Room Server...`;
-            connSubtext.innerText = "Listening on lobby port 27015 UDP...";
+        window.resetModal = function() {
+            if (window._joinTimer) clearTimeout(window._joinTimer);
+            if (window._stepTimer) clearInterval(window._stepTimer);
             
-            // Random delay between 4000 and 8000 ms
+            const viewRooms = document.getElementById('modal-view-rooms');
+            const viewCreate = document.getElementById('modal-view-create');
+            const viewConnecting = document.getElementById('modal-view-connecting');
+            const viewError = document.getElementById('modal-view-error');
+
+            if (viewRooms) viewRooms.style.display = 'block';
+            if (viewCreate) viewCreate.style.display = 'none';
+            if (viewConnecting) viewConnecting.style.display = 'none';
+            if (viewError) viewError.style.display = 'none';
+            
+            window.startLiveRoomUpdates();
+        };
+
+        window.openCreateRoom = function() {
+            const viewRooms = document.getElementById('modal-view-rooms');
+            const viewCreate = document.getElementById('modal-view-create');
+            const viewConnecting = document.getElementById('modal-view-connecting');
+            const viewError = document.getElementById('modal-view-error');
+
+            if (viewRooms) viewRooms.style.display = 'none';
+            if (viewCreate) viewCreate.style.display = 'block';
+            if (viewConnecting) viewConnecting.style.display = 'none';
+            if (viewError) viewError.style.display = 'none';
+        };
+
+        window.submitCreateRoom = function() {
+            const inputEl = document.getElementById('room-name');
+            const roomName = (inputEl && inputEl.value) ? inputEl.value : "Custom Lobby";
+            
+            const viewCreate = document.getElementById('modal-view-create');
+            const viewConnecting = document.getElementById('modal-view-connecting');
+            if (viewCreate) viewCreate.style.display = 'none';
+            if (viewConnecting) viewConnecting.style.display = 'block';
+
+            const connText = document.getElementById('connecting-text');
+            const connSubtext = document.getElementById('connecting-subtext');
+            const connPing = document.getElementById('connecting-ping');
+
+            if (connText) connText.innerText = `Initializing "${roomName}" Room Server...`;
+            if (connSubtext) connSubtext.innerText = "Listening on lobby port 27015 UDP...";
+            
             const randomDelay = Math.floor(Math.random() * 4000) + 4000;
             const startTime = Date.now();
 
-            stepTimer = setInterval(() => {
+            if (window._stepTimer) clearInterval(window._stepTimer);
+            window._stepTimer = setInterval(() => {
                 const elapsed = Date.now() - startTime;
-                connPing.innerText = `Localhost Server Bind | Elapsed Time: ${(elapsed / 1000).toFixed(1)}s`;
+                if (connPing) connPing.innerText = `Localhost Server Bind | Elapsed Time: ${(elapsed / 1000).toFixed(1)}s`;
 
-                if (elapsed > randomDelay * 0.4) {
+                if (elapsed > randomDelay * 0.4 && connSubtext) {
                     connSubtext.innerText = "Launching host server in ManaBoom.exe process...";
                 }
             }, 300);
 
-            joinTimer = setTimeout(() => {
-                clearInterval(stepTimer);
-                errorTitle.innerText = "Game Process Not Detected!";
-                errorDesc.innerText = `To host the room "${roomName}", the Mana Boom game client (ManaBoom.exe) must be running on your system. Please launch the game and try again.`;
-                errorCode.innerText = "[ERROR: HOST_SERVER_FAILED - ManaBoom.exe process missing]";
-                viewConnecting.style.display = 'none';
-                viewError.style.display = 'block';
-            }, randomDelay);
-        }
+            if (window._joinTimer) clearTimeout(window._joinTimer);
+            window._joinTimer = setTimeout(() => {
+                if (window._stepTimer) clearInterval(window._stepTimer);
+                
+                const errorTitle = document.getElementById('error-title');
+                const errorDesc = document.getElementById('error-desc');
+                const errorCode = document.getElementById('error-code');
+                const viewError = document.getElementById('modal-view-error');
 
-        window.joinRoom = function(roomName) {
-            viewRooms.style.display = 'none';
-            viewCreate.style.display = 'none';
-            viewConnecting.style.display = 'block';
-            viewError.style.display = 'none';
-
-            connText.innerText = `Connecting to ${roomName}...`;
-            connSubtext.innerText = "Negotiating server handshake...";
-            
-            // Random delay between 5000 and 10000 ms (5.0 to 10.0 seconds)
-            const randomDelay = Math.floor(Math.random() * 5000) + 5000;
-            const startTime = Date.now();
-
-            // Live status updates during connecting phase
-            stepTimer = setInterval(() => {
-                const elapsed = Date.now() - startTime;
-                const currentPing = Math.floor(Math.random() * 25) + 18;
-                connPing.innerText = `Ping: ${currentPing}ms | Connection Time: ${(elapsed / 1000).toFixed(1)}s`;
-
-                if (elapsed > randomDelay * 0.3 && elapsed <= randomDelay * 0.6) {
-                    connSubtext.innerText = "Checking game process status (ManaBoom.exe)...";
-                } else if (elapsed > randomDelay * 0.6) {
-                    connSubtext.innerText = "Waiting for client response...";
-                }
-            }, 300);
-
-            joinTimer = setTimeout(() => {
-                clearInterval(stepTimer);
-                errorTitle.innerText = "Game Process Not Detected!";
-                errorDesc.innerText = `To join ${roomName}, the Mana Boom game client (ManaBoom.exe) must be running on your system. Please launch the game and try again.`;
-                errorCode.innerText = "[ERROR: CLIENT_PROCESS_NOT_RESPONDING - ManaBoom.exe]";
-                viewConnecting.style.display = 'none';
-                viewError.style.display = 'block';
+                if (errorTitle) errorTitle.innerText = "Game Process Not Detected!";
+                if (errorDesc) errorDesc.innerText = `To host the room "${roomName}", the Mana Boom game client (ManaBoom.exe) must be running on your system. Please launch the game and try again.`;
+                if (errorCode) errorCode.innerText = "[ERROR: HOST_SERVER_FAILED - ManaBoom.exe process missing]";
+                
+                if (viewConnecting) viewConnecting.style.display = 'none';
+                if (viewError) viewError.style.display = 'block';
             }, randomDelay);
         };
 
-        function startLiveRoomUpdates() {
-            if (liveRoomsInterval) clearInterval(liveRoomsInterval);
-            liveRoomsInterval = setInterval(() => {
-                if (modal.style.display !== 'flex' || viewRooms.style.display === 'none') return;
+        window.joinRoom = function(roomName) {
+            const viewRooms = document.getElementById('modal-view-rooms');
+            const viewCreate = document.getElementById('modal-view-create');
+            const viewConnecting = document.getElementById('modal-view-connecting');
+            const viewError = document.getElementById('modal-view-error');
 
-                // Dynamically fluctuate ping values
+            if (viewRooms) viewRooms.style.display = 'none';
+            if (viewCreate) viewCreate.style.display = 'none';
+            if (viewConnecting) viewConnecting.style.display = 'block';
+            if (viewError) viewError.style.display = 'none';
+
+            const connText = document.getElementById('connecting-text');
+            const connSubtext = document.getElementById('connecting-subtext');
+            const connPing = document.getElementById('connecting-ping');
+
+            if (connText) connText.innerText = `Connecting to ${roomName}...`;
+            if (connSubtext) connSubtext.innerText = "Negotiating server handshake...";
+            
+            const randomDelay = Math.floor(Math.random() * 5000) + 5000;
+            const startTime = Date.now();
+
+            if (window._stepTimer) clearInterval(window._stepTimer);
+            window._stepTimer = setInterval(() => {
+                const elapsed = Date.now() - startTime;
+                const currentPing = Math.floor(Math.random() * 25) + 18;
+                if (connPing) connPing.innerText = `Ping: ${currentPing}ms | Connection Time: ${(elapsed / 1000).toFixed(1)}s`;
+
+                if (elapsed > randomDelay * 0.3 && elapsed <= randomDelay * 0.6) {
+                    if (connSubtext) connSubtext.innerText = "Checking game process status (ManaBoom.exe)...";
+                } else if (elapsed > randomDelay * 0.6) {
+                    if (connSubtext) connSubtext.innerText = "Waiting for client response...";
+                }
+            }, 300);
+
+            if (window._joinTimer) clearTimeout(window._joinTimer);
+            window._joinTimer = setTimeout(() => {
+                if (window._stepTimer) clearInterval(window._stepTimer);
+
+                const errorTitle = document.getElementById('error-title');
+                const errorDesc = document.getElementById('error-desc');
+                const errorCode = document.getElementById('error-code');
+                const viewError = document.getElementById('modal-view-error');
+
+                if (errorTitle) errorTitle.innerText = "Game Process Not Detected!";
+                if (errorDesc) errorDesc.innerText = `To join ${roomName}, the Mana Boom game client (ManaBoom.exe) must be running on your system. Please launch the game and try again.`;
+                if (errorCode) errorCode.innerText = "[ERROR: CLIENT_PROCESS_NOT_RESPONDING - ManaBoom.exe]";
+                
+                if (viewConnecting) viewConnecting.style.display = 'none';
+                if (viewError) viewError.style.display = 'block';
+            }, randomDelay);
+        };
+
+        window.startLiveRoomUpdates = function() {
+            if (window._liveRoomsInterval) clearInterval(window._liveRoomsInterval);
+            window._liveRoomsInterval = setInterval(() => {
+                const modal = document.getElementById('server-modal');
+                const viewRooms = document.getElementById('modal-view-rooms');
+                if (!modal || modal.style.display !== 'flex' || !viewRooms || viewRooms.style.display === 'none') return;
+
                 document.querySelectorAll('.room-ping').forEach(el => {
                     const base = parseInt(el.dataset.basePing) || 25;
-                    const variation = Math.floor(Math.random() * 7) - 3; // -3 to +3
+                    const variation = Math.floor(Math.random() * 7) - 3;
                     const newPing = Math.max(14, base + variation);
                     el.innerText = `Ping: ${newPing}ms`;
                 });
 
-                // Occasionally fluctuate player counts to simulate live joins/leaves
                 if (Math.random() < 0.4) {
                     const playerCounts = document.querySelectorAll('.player-count');
                     if (playerCounts.length > 0) {
@@ -592,13 +611,25 @@
                     }
                 }
             }, 2000);
-        }
+        };
 
-        window.openServerBrowser = openServerBrowser;
-        window.openCreateRoom = openCreateRoom;
-        window.submitCreateRoom = submitCreateRoom;
-        window.closeModal = closeModal;
-        window.resetModal = resetModal;
+        // Attach global click event delegation
+        document.addEventListener('click', function(e) {
+            const btn = e.target.closest('#btn-server-browser');
+            if (btn) {
+                e.preventDefault();
+                window.openServerBrowser();
+            }
+            const closeBtn = e.target.closest('#modal-close-btn');
+            if (closeBtn) {
+                e.preventDefault();
+                window.closeModal();
+            }
+            const modalEl = document.getElementById('server-modal');
+            if (e.target === modalEl) {
+                window.closeModal();
+            }
+        });
     </script>
 
     <!-- Smooth Scrolling -->
