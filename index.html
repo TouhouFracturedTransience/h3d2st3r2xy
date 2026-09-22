@@ -81,7 +81,7 @@
                 <a href="#" aria-label="Discord"><svg viewBox="0 0 24 24"><path d="M20.3 5.3A16.2 16.2 0 0 0 16 3.5a.1.1 0 0 0-.08.05 11.4 11.4 0 0 0-.5 1 15.3 15.3 0 0 0-5.8 0 11.4 11.4 0 0 0-.5-1 .1.1 0 0 0-.08-.05 16.2 16.2 0 0 0-4.3 1.8.1.1 0 0 0-.04.04C1.5 12 2.6 18.5 4 20.5a.1.1 0 0 0 .07.03 16.4 16.4 0 0 0 5-1.5.1.1 0 0 0 .05-.1 11.8 11.8 0 0 1-.5-1.6.1.1 0 0 1 .05-.12 11.1 11.1 0 0 0 6.6 0 .1.1 0 0 1 .05.12 11.8 11.8 0 0 1-.5 1.6.1.1 0 0 0 .05.1 16.4 16.4 0 0 0 5 1.5.1.1 0 0 0 .07-.03c1.5-2 2.5-8.5.5-15.2a.1.1 0 0 0-.04-.04zM8 15.6c-1.1 0-2-.9-2-2.1s.9-2.1 2-2.1 2 .9 2 2.1-.9 2.1-2 2.1zm8 0c-1.1 0-2-.9-2-2.1s.9-2.1 2-2.1 2 .9 2 2.1-.9 2.1-2 2.1z"/></svg></a>
                 <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33zM9.75 15.02V8.48l6.5 3.27-6.5 3.27z"/></svg></a>
             </div>
-            <button class="btn-nav-play" id="btn-server-browser" style="background-color: var(--primary); margin-right: 10px; cursor: pointer;">
+            <button class="btn-nav-play" id="btn-server-browser" onclick="openServerBrowser()" style="background-color: var(--primary); margin-right: 10px; cursor: pointer;">
                 <span>JOIN ROOM</span>
             </button>
             <a href="https://store.steampowered.com/app/5022650/Mana_Boom/" target="_blank" class="btn-nav-play" style="background-color: var(--bg-dark); color: var(--text-light); border-color: var(--primary);">
@@ -449,11 +449,20 @@
         let stepTimer = null;
         let liveRoomsInterval = null;
 
-        document.getElementById('btn-server-browser').addEventListener('click', () => {
-            modal.style.display = 'flex';
-            resetModal();
-            startLiveRoomUpdates();
-        });
+        function openServerBrowser() {
+            const modalEl = document.getElementById('server-modal');
+            if (modalEl) {
+                modalEl.style.display = 'flex';
+                modalEl.classList.add('active');
+                resetModal();
+                startLiveRoomUpdates();
+            }
+        }
+
+        const btnServer = document.getElementById('btn-server-browser');
+        if (btnServer) {
+            btnServer.addEventListener('click', openServerBrowser);
+        }
 
         document.getElementById('modal-close-btn').addEventListener('click', closeModal);
         modal.addEventListener('click', (e) => {
@@ -461,7 +470,11 @@
         });
 
         function closeModal() {
-            modal.style.display = 'none';
+            const modalEl = document.getElementById('server-modal');
+            if (modalEl) {
+                modalEl.style.display = 'none';
+                modalEl.classList.remove('active');
+            }
             if (joinTimer) clearTimeout(joinTimer);
             if (stepTimer) clearInterval(stepTimer);
             if (liveRoomsInterval) clearInterval(liveRoomsInterval);
@@ -581,6 +594,7 @@
             }, 2000);
         }
 
+        window.openServerBrowser = openServerBrowser;
         window.openCreateRoom = openCreateRoom;
         window.submitCreateRoom = submitCreateRoom;
         window.closeModal = closeModal;
